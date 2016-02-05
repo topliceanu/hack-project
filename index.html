@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Pusher Leaderboard</title>
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-theme.min.css">
+    <link rel="stylesheet" href="sortable-theme-bootstrap.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <!-- Header Data -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">
+            <img alt="Brand" src="pusher-logo.png">
+          </a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">OpenSource Leaderboard</a>
+        </div>
+      </div>
+    </nav>
+    <!-- End Header Data -->
+
+
+    <!-- Table Data -->
+    <div id="main" class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <table id="leaderboard" class="table table-striped" data-sortable>
+            <thead>
+              <tr>
+                <th data-sortable="false">Username</th>
+                <th data-sortable-type="numeric">Number of Commits</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- End Table Data -->
+
+
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="sortable.min.js"></script>
+
+    <!--
+    <script src="data.js"></script>
+    -->
+    <script src="main.js"></script>
+  </body>
+</html>
