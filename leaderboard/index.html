@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Pusher Leaderboard</title>
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-theme.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <!-- Header Data -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">
+            <img alt="Brand" src="pusher-logo.png">
+          </a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">OpenSource Leaderboard</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox">
+                <span class="label label-default">Internal</span>
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <!-- End Header Data -->
+
+
+    <!-- Table Data -->
+    <div id="main" class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <table id="leaderboard" class="table table-striped" data-sortable>
+            <thead>
+              <tr>
+                <th>Score</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody id="canvas"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- End Table Data -->
+
+
+    <script src="jquery.min.js"></script>
+    <script src="http://js.pusher.com/3.0/pusher.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+
+    <script src="index.js"></script>
+  </body>
+</html>
