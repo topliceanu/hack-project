@@ -59,7 +59,7 @@ class DataStore {
 
   // algo: P / (T+2)^G
   // @param commits [[username, timestamp],...]
-  // @return [[username, score]]
+  // @return [[username, score, numCommits]]
   _applyScore (commits) {
     const now = Math.floor(Date.now() / 1000);
     const gravity = 1.8;
@@ -84,15 +84,15 @@ class DataStore {
 
     return Object.keys(numCommits).reduce((collector, username) => {
       const score = numCommits[username] / Math.pow(lastCommitDelta[username] + 2, gravity);
-      collector.push([username, score]);
+      collector.push([username, score, numCommits[username]]);
       return collector;
     }, []);
   }
 
 
-  // @param scores [[username, score],...]
+  // @param scores [[username, score, numCommits],...]
   // @param usernames [username]
-  // @return [[username, score],...]
+  // @return [[username, score, numCommits],...]
   _filterIn (scores, usernames) {
     return scores.reduce((collector, item) => {
       const username = item[0];
@@ -103,9 +103,9 @@ class DataStore {
     }, []);
   }
 
-  // @param scores [[username, score],...]
+  // @param scores [[username, score, numCommits],...]
   // @param usernames [username]
-  // @return [[username, score],...]
+  // @return [[username, score, numCommits],...]
   _filterOut (scores, usernames) {
     return scores.reduce((collector, item) => {
       const username = item[0];
@@ -141,12 +141,17 @@ const onNotifications = (appKey, channel, event, handler) => {
   });
 };
 
-const template = (username, score) => {
+const template = (username, score, numCommits) => {
   return `
     <tr>
-      <td>${score}<\/td>
       <td>
-        <a href="http://github.com/${username}">${username}<\/a>
+        ${score}
+      <\/td>
+      <td>
+        <a href="http://github.com/${username}">github.com/${username}<\/a>
+      <\/td>
+      <td>
+        ${numCommits}
       <\/td>
     <\/tr>
   `;
@@ -158,7 +163,8 @@ const render = (canvas, commits) => {
   const html = commits.map((item, index) => {
     const username = item[0];
     const score = item[1];
-    return template(username, score);
+    const numCommits = item[2];
+    return template(username, score, numCommits);
   }).join('');
   canvas.innerHTML = html;
 };
