@@ -35,13 +35,14 @@ const fetchData = () => {
   });
 };
 
-const filterPusherEmployees = (commits) => {
+const filterOutPusherEmployees = (commits) => {
   const engineers = [
     'DanielWaterworth',
     'Nicowcow',
     'WillSewell',
     'alexpate',
     'benfoxall',
+    'dctanner',
     'ewmy',
     'frogvalley',
     'hamchapman',
@@ -65,7 +66,7 @@ const filterPusherEmployees = (commits) => {
     'sylg',
     'topliceanu',
     'vivangkumar',
-    'zimbatm',
+    'zimbatm'
   ];
   engineers.forEach((username) => {
     if (commits[username]) {
@@ -75,17 +76,83 @@ const filterPusherEmployees = (commits) => {
   return Promise.resolve(commits);
 };
 
+const filterInPusherEmployees = (commits) => {
+  const engineers = [
+    'Nicowcow',
+    'WillSewell',
+    'alexpate',
+    'benfoxall',
+    'ewmy',
+    'frogvalley',
+    'hamchapman',
+    'jackfranklin',
+    'jamescun',
+    'jpatel531',
+    'maxthelion',
+    'mdpye',
+    'olgad123',
+    'olgagithub',
+    'pl',
+    'pusher-ci',
+    'pusher-dashboard',
+    'pusher-puppet',
+    'seeemilyplay',
+    'stealthpig',
+    'sylg',
+    'topliceanu',
+    'vivangkumar',
+    'zimbatm'
+  ];
+  const filtered = engineers.reduce((collector, username) => {
+    if (commits[username]) {
+      collector[username] = commits[username];
+    }
+    return collector;
+  }, {});
+  return Promise.resolve(filtered);
+};
+
+const sortDescByCommits = (commits) => {
+  const sorted = Object.keys(commits).map((username) => {
+    return [username, commits[username]]
+  }).sort((a, b) => {
+      if (a[1] < b[1]) {
+        return 1;
+      }
+      if (a[1] > b[1]) {
+        return -1;
+      }
+      return 0;
+  });
+  return Promise.resolve(sorted);
+};
+
 const renderTable = (commits) => {
-  const html = Object.keys(commits).map((username, index) => {
-    const numCommits = commits[username];
+  const html = commits.map((item, index) => {
+    const username = item[0];
+    const numCommits = item[1];
     return template(index+1, username, numCommits);
   }).join('');
   document.querySelector('#leaderboard tbody').innerHTML = html;
-
-  const table = document.getElementById('leaderboard');
-  Sortable.init(table);
 };
 
 fetchData()
-  .then(filterPusherEmployees)
+  .then(filterOutPusherEmployees)
+  .then(sortDescByCommits)
   .then(renderTable);
+
+$('input[type=checkbox]').on('click', (ev) => {
+  const isChecked = $(ev.target).is(':checked');
+  if (!isChecked) {
+    fetchData()
+      .then(filterOutPusherEmployees)
+      .then(sortDescByCommits)
+      .then(renderTable);
+  }
+  else {
+    fetchData()
+      .then(filterInPusherEmployees)
+      .then(sortDescByCommits)
+      .then(renderTable);
+  }
+});
