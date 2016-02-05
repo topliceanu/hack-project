@@ -11,7 +11,11 @@ const template = (index, username, numCommits) => {
   `;
 };
 
+let _cached_data = null;
 const fetchData = () => {
+  if (_cached_data !== null) {
+    return Promise.resolve(_cached_data);
+  }
   const insert = function (data, newData) {
     Object.keys(newData).forEach((repo) => {
       Object.keys(newData[repo]).forEach((username) => {
@@ -31,6 +35,7 @@ const fetchData = () => {
   ]).then((results) => {
     insert(commits, results[0]);
     insert(commits, results[1]);
+    _cached_data = $.extend({}, commits); // clones the initial object.
     return Promise.resolve(commits);
   });
 };
