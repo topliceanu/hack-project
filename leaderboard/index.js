@@ -130,7 +130,15 @@ class DataStore {
 }
 
 const fetchInitial = (endpoint) => {
-  return $.getJSON(endpoint);
+  return new Promise((resolve) => {
+    $.getJSON(endpoint).then((response) => {
+      const results = Object.keys(response.commits).map((index) => {
+        const item = response.commits[index];
+        return [item.username, item.timestamp];
+      });
+      resolve(results);
+    });
+  });
 };
 
 const onNotifications = (appKey, channel, event, handler) => {
@@ -172,7 +180,7 @@ const render = (canvas, commits) => {
 
 // MAIN
 
-const API_ENDPOINT = 'https://stark-tundra-99918.herokuapp.com/api/commits';
+const API_ENDPOINT = 'https://stark-tundra-99918.herokuapp.com/api/commits/pusher?since=1423146000';
 const APP_ID = '150226';
 const APP_KEY = '61dbfafde623432a30d4';
 const APP_SECRET = '555b8b7b9ca6006105fd';
